@@ -22,7 +22,8 @@ Modulo para interagir no forum IGN boards, loga usando cookies do firefox, cria 
         ign = IGNInterage(driver_location, cookie_file)
         if not ign.check_login():
             ign.ign_login()
-
+        ign.novo_topico('teste', 'som som teste', 'vale-tudo.80331/')    
+        ign.editar_topico('teste editado', '[edit] ei ei som', '123456789', '17')
         ign.comentar(text='isso foi postado com a "API" rsrsrsrs', thread='123456789')
         ign.editar_comentario('[EDITt] e agora foi editado usando a "API"', '123456789')
         ign.react(text='1', post_id='123456789')
