@@ -2,16 +2,16 @@
 # IGNInterage
 Modulo para interagir no forum IGN boards, loga usando cookies do firefox, cria topico, comenta, edita, react etc. (win)
 
-## requirementos
+## requerimentos
 - Windows
 - Navegador Firefox
 - geckodriver.exe: https://github.com/mozilla/geckodriver/releases
 - python >=3.6
 
-## instalation
+## instalação
    TODO
 
-## usage
+## uso
 - Primeiro realize o login no Firefox.
 
  
