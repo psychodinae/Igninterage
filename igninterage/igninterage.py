@@ -5,7 +5,7 @@ from igninterage.firefox_cookies_loader import FirefoxCookiesLoader
 from igninterage.interage import Interage
 
 
-class IGNInterage(Interage):
+class Igninterage(Interage):
     _re_fx1 = 'data-csrf="'
     _re_fx2 = '"'
     _re_log1 = 'data-logged-in="'
