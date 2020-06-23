@@ -5,13 +5,10 @@ from interage import Interage
 
 
 class IGNInteract(Interage):
-    _site = 'https://www.ignboards.com/'
     _re_fx1 = 'data-csrf="'
     _re_fx2 = '"'
     _re_log1 = 'data-logged-in="'
     _re_log2 = '"'
-    _cookies = None
-    _xf_token = None
     _header = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
                       'Chrome/70.0.3538.77 Safari/537.36',
@@ -23,12 +20,11 @@ class IGNInteract(Interage):
         usando o modulo requests, no fórum IGN Boards.
 
         É possível:
-            * Criar um tópico.
-            * Editar um tópico.
             * Postar em um tpc.
             * Editar o post.
             * reagir a um post.
         TODO:
+            * Criar um tópico.
             * Enviar mensagem privada.
 
         Args:
@@ -37,10 +33,10 @@ class IGNInteract(Interage):
 
         """
         super().__init__()
-        self.url = 'https://www.ignboards.com/'
         self._cache_file_name = cache_file_name
         self._geckodriver_location = geckodriver_location
         self.interact_session = requests.Session()
+        self.url = 'https://www.ignboards.com/'
         self._load_cache_cookies()
 
     def _load_cache_cookies(self):
@@ -52,7 +48,7 @@ class IGNInteract(Interage):
                 print('cache carregado com sucesso!')
                 return True
             else:
-                print('[!] Cache expirado, rode o metodo ing_login() primeiro.')
+                print('[!] Cache expirado, rode o metodo ing_login() primeiro.xxxx')
                 return False
         except FileNotFoundError:
             pass
@@ -60,7 +56,7 @@ class IGNInteract(Interage):
 
     def _load_from_firefox(self):
         print('[!] O arquivo cache da sessão está expirado, criando um novo usando o navegador firefox...')
-        ff_ck_loader = FirefoxCookiesLoader(self._geckodriver_location, self._site)
+        ff_ck_loader = FirefoxCookiesLoader(self._geckodriver_location, self.url)
         cookies = ff_ck_loader.get_cookies('xf_session', 'xf_csrf')
         self.set_cookie(cookies)
         xf_token = self.check_login()
@@ -73,9 +69,10 @@ class IGNInteract(Interage):
 
     def check_login(self):
         try:
-            req = self.interact_session.get(self._site).text
-            if 'true' in utils.re_search(self._re_log1, self._re_log2, req):
-                return utils.re_search(self._re_fx1, self._re_fx2, req)
+            req = self.interact_session.get(self.url)
+            print(req.request.headers)
+            if 'true' in utils.re_search(self._re_log1, self._re_log2, req.text):
+                return utils.re_search(self._re_fx1, self._re_fx2, req.text)
         except requests.exceptions.ConnectionError:
             print('Erro IGNInteract.ign_login,check_login(): requests: erro de conexão.')
             exit(1)
