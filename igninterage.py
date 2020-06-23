@@ -23,11 +23,12 @@ class IGNInteract(Interage):
         usando o modulo requests, no fórum IGN Boards.
 
         É possível:
+            * Criar um tópico.
+            * Editar um tópico.
             * Postar em um tpc.
             * Editar o post.
             * reagir a um post.
         TODO:
-            * Criar um tópico.
             * Enviar mensagem privada.
 
         Args:
