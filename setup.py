@@ -9,4 +9,5 @@ setup(name='igninterage',
       license='MIT',
       packages=setuptools.find_packages(),
       install_requires=['requests', 'selenium']
+      python_requires='>=3.6',
      )
