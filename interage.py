@@ -12,7 +12,7 @@ class Interage:
         for cookie in cookies:
             self.interact_session.cookies.update(cookie)
             
-    def novo_topico(self, title: str, text: str, board_uri, prefix_id='0'):
+    def novo_topico(self, title: str, text: str, board_uri: str, prefix_id='0'):
         """Cria um tópico.
 
         Args:
