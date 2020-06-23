@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 from selenium import webdriver
 from selenium.common import exceptions as ex
