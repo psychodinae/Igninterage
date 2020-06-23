@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 class Interage:
     """Clase que realiza as requisições web"""
 
