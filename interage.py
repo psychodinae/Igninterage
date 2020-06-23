@@ -33,7 +33,7 @@ class Interage:
         Args:
             title (str): Titulo da Mensagem.
             text (str): Mensagem a ser enviada.
-            post_id (str): id do post.
+            post_id (str): id do primeiro post.
             prefix_id (str): prefixo para o topico: 17=resolved, 63=spoiler, default: sem prefixo..
          """
         self.data["title"] = title
