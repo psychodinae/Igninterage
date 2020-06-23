@@ -1,1 +1,1 @@
-from .igninterage import IGNInterage
+from igninterage.igninterage import IGNInterage
