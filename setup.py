@@ -17,7 +17,7 @@ def main():
         packages=setuptools.find_packages(),
         classifiers=app.__classifiers__,
         python_requires=app.__python_requires__,
-        install_requires=app.__install_requires__
+        install_requires=['requests', 'selenium'],
     )
 
 
