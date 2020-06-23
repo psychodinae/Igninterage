@@ -7,6 +7,6 @@ setup(name='igninterage',
       author='Psychodinae',
       author_email='https://github.com/psychodinae',
       license='MIT',
-      packages=['igninterage'],
+      packages=setuptools.find_packages(),
       install_requires=['requests', 'selenium']
      )
