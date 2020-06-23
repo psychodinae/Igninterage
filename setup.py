@@ -14,7 +14,7 @@ def main():
         description=app.__description__,
         long_description=long_description,
         license=app.__licence__,
-        packages=setuptools.find_packages(),
+        packages=['igninterage'],
         classifiers=app.__classifiers__,
         python_requires=app.__python_requires__,
         install_requires=['requests', 'selenium'],
