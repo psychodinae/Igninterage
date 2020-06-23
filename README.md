@@ -26,6 +26,6 @@ Modulo para interagir no forum IGN boards, loga usando cookies do firefox, cria 
         ign.editar_topico('teste editado', '[edit] ei ei som', '123456789', '17')
         ign.comentar(text='isso foi postado com a "API" rsrsrsrs', thread='123456789')
         ign.editar_comentario('[EDITt] e agora foi editado usando a "API"', '123456789')
-        ign.react(text='1', post_id='123456789')
+        ign.react(react_id='1', post_id='123456789')
 ## TODO:
 O modulo em si.
