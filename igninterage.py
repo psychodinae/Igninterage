@@ -37,6 +37,7 @@ class IGNInteract(Interage):
 
         """
         super().__init__()
+        self.url = 'https://www.ignboards.com/'
         self._cache_file_name = cache_file_name
         self._geckodriver_location = geckodriver_location
         self.interact_session = requests.Session()
