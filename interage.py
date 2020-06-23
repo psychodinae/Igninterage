@@ -1,10 +1,8 @@
-URL = 'https://www.ignboards.com/'
-
-
 class Interage:
     """Clase que realiza as requisições web"""
     def __init__(self):
         self.interact_session = None
+        self.url = ''
         self.header = {}
         self.data = {}
 
