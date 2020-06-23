@@ -1,16 +1,18 @@
 class Interage:
     """Clase que realiza as requisições web"""
+
     def __init__(self):
         self.interact_session = None
         self.url = ''
         self.header = {}
         self.data = {}
+        self.default_board_uri = ''
 
     def set_cookie(self, cookies: list):
         for cookie in cookies:
             self.interact_session.cookies.update(cookie)
-            
-    def novo_topico(self, title: str, text: str, board_uri: str, prefix_id='0'):
+
+    def novo_topico(self, title: str, text: str, board_uri, prefix_id='0'):
         """Cria um tópico.
 
         Args:
@@ -22,7 +24,7 @@ class Interage:
         self.data["title"] = title
         self.data["message"] = text
         self.data["prefix_id"] = prefix_id
-        self.interact_session.post(f'{URL}forums/{board_uri}/post-thread', data=self.data, headers=self.header)
+        self.interact_session.post(f'{self.url}forums/{board_uri}/post-thread', data=self.data, headers=self.header)
         print(f'[!] Criou tópico na sessão {board_uri} com sucesso!')
 
     def editar_topico(self, title: str, text: str, post_id: str, prefix_id='0'):
@@ -31,13 +33,13 @@ class Interage:
         Args:
             title (str): Titulo da Mensagem.
             text (str): Mensagem a ser enviada.
-            post_id (str): id do primeiro post.
+            post_id (str): id do post.
             prefix_id (str): prefixo para o topico: 17=resolved, 63=spoiler, default: sem prefixo..
          """
         self.data["title"] = title
         self.data["message"] = text
         self.data["prefix_id"] = prefix_id
-        self.interact_session.post(f'{URL}posts/{post_id}/edit', data=self.data, headers=self.header)
+        self.interact_session.post(f'{self.url}posts/{post_id}/edit', data=self.data, headers=self.header)
         print(f'[!] Tópico editado com sucesso!')
 
     def comentar(self, text: str, thread: str):
@@ -53,7 +55,7 @@ class Interage:
             thread (str): ID do tópico.
          """
         self.data["message"] = text
-        self.interact_session.post(f'{URL}threads/{thread}/add-reply', data=self.data, headers=self.header)
+        self.interact_session.post(f'{self.url}threads/{thread}/add-reply', data=self.data, headers=self.header)
         print(f'[!] postou no tópico {thread} com sucesso!')
 
     def editar_comentario(self, text: str, post_id: str):
@@ -65,7 +67,7 @@ class Interage:
             post_id (str): id do post.
         """
         self.data["message"] = text
-        self.interact_session.post(f'{URL}posts/{post_id}/edit', data=self.data, headers=self.header)
+        self.interact_session.post(f'{self.url}posts/{post_id}/edit', data=self.data, headers=self.header)
         print(f'[!] Post {post_id} editado com sucesso!')
 
     def react(self, react_id: str, post_id: str):
@@ -92,5 +94,6 @@ class Interage:
                 post_id (str): id do post.
          """
         self.data["reaction_id"] = react_id
-        self.interact_session.post(f'{URL}posts/{post_id}/react', data=self.data, headers=self.header)
+        self.interact_session.post(f'{self.url}posts/{post_id}/react', data=self.data, headers=self.header)
         print(f'[!] reagiu ao post {post_id}!')
+ 
