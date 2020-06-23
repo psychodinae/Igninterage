@@ -71,7 +71,6 @@ class Igninterage(Interage):
     def check_login(self):
         try:
             req = self.interact_session.get(self.url)
-            print(req.request.headers)
             if 'true' in utils.re_search(self._re_log1, self._re_log2, req.text):
                 return utils.re_search(self._re_fx1, self._re_fx2, req.text)
         except requests.exceptions.ConnectionError:
