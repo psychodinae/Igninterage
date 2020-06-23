@@ -1,7 +1,7 @@
 import requests
-from . import utils
-from .firefox_cookies_loader import FirefoxCookiesLoader
-from .interage import Interage
+from igninterage import utils
+from igninterage.firefox_cookies_loader import FirefoxCookiesLoader
+from igninterage.interage import Interage
 
 
 class IGNInterage(Interage):
