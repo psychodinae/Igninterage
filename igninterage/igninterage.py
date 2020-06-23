@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import requests
 from igninterage import utils
 from igninterage.firefox_cookies_loader import FirefoxCookiesLoader
