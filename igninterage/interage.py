@@ -1,18 +1,73 @@
 # -*- coding: utf-8 -*-
-class Interage:
+import requests
+import lxml.html as parser
+from igninterage.exceptions import LoginError, NotXenforoPage
+
+
+def decorator_check_login(f):
+    def wrapper(ins, *args, **kwargs):
+        if ins.check_login():
+            print('[!] Logado ok!')
+            f(ins, *args, **kwargs)
+            return True
+    return wrapper
+
+
+class Interage(object):
     """Clase que realiza as requisições web"""
+    interact_session = requests.Session()
+    data = {}
 
-    def __init__(self):
-        self.interact_session = None
-        self.url = ''
-        self.header = {}
-        self.data = {}
-        self.default_board_uri = ''
+    def __init__(self, url: str, header: dict, ):
+        self.url = url
+        self.interact_session.headers.update(header)
 
-    def set_cookie(self, cookies: list):
-        for cookie in cookies:
-            self.interact_session.cookies.update(cookie)
+    def set_cookie(self, cookie: dict):
+        self.interact_session.cookies.update(cookie)
+        self.check_login()
 
+    def set_xf_token(self, token: str):
+        self.data = {'_xfToken': token}
+
+    def check_login(self):
+        self.data.clear()
+        try:
+            req = self.interact_session.get(self.url)
+            tree = parser.fromstring(req.text)
+            try:
+                is_logged = tree.get_element_by_id('XF').get('data-logged-in')
+            except (IndexError, KeyError):
+                raise NotXenforoPage(f'Erro: "{self.url}" nao e um forum Xenforo, voce digitou a url corretamente no '
+                                     f'construtor da classe?')
+            if is_logged == 'true':
+                csrf_token = tree.find('.//input[@name="_xfToken"]').value
+                self.data = {'_xfToken': csrf_token}
+                return True
+            elif is_logged == 'false':
+                raise LoginError('Erro ao logar, cookie inexistente, expirado ou Usuario/senha invalidos.')
+            else:
+                raise LoginError('Erro desconhecido ao checar se esta logado.')
+
+        except requests.exceptions.ConnectionError:
+            raise ConnectionError('Erro Interage,check_login(): requests: erro de conexão.')
+
+    def xenforo2_login(self, username: str, password: str):
+        """Realiza Login padrao em foruns Xenforo 2.x.
+
+                Args:
+                    username (str): nome de usuario ou e-mail.
+                    password (str): senha do usuario.
+                 """
+        _data_login = {
+            "login": username,
+            "password": password,
+            'remember': '1'
+        }
+        self.interact_session.post(f'{self.url}index.php?login/login/', data=_data_login)
+        self.check_login()
+        return self.interact_session.cookies.get_dict()
+
+    @decorator_check_login
     def novo_topico(self, title: str, text: str, board_uri, prefix_id='0'):
         """Cria um tópico.
 
@@ -22,12 +77,15 @@ class Interage:
             board_uri (str): endpoint O forum especifo a ser criado o tpc ex: vale-tudo.80331/.
             prefix_id (str): prefixo para o topico: 17=resolved, 63=spoiler, default: sem prefixo..
          """
-        self.data["title"] = title
-        self.data["message"] = text
-        self.data["prefix_id"] = prefix_id
-        self.interact_session.post(f'{self.url}forums/{board_uri}/post-thread', data=self.data, headers=self.header)
+        self.data.update({
+            "title": title,
+            "message": text,
+            "prefix_id": prefix_id
+        })
+        self.interact_session.post(f'{self.url}forums/{board_uri}/post-thread', data=self.data)
         print(f'[!] Criou tópico na sessão {board_uri} com sucesso!')
 
+    @decorator_check_login
     def editar_topico(self, title: str, text: str, post_id: str, prefix_id='0'):
         """Cria um tópico.
 
@@ -37,12 +95,16 @@ class Interage:
             post_id (str): id do primeiro post.
             prefix_id (str): prefixo para o topico: 17=resolved, 63=spoiler, default: sem prefixo..
          """
-        self.data["title"] = title
-        self.data["message"] = text
-        self.data["prefix_id"] = prefix_id
-        self.interact_session.post(f'{self.url}posts/{post_id}/edit', data=self.data, headers=self.header)
+
+        self.data.update({
+            "title": title,
+            "message": text,
+            "prefix_id": prefix_id
+        })
+        self.interact_session.post(f'{self.url}posts/{post_id}/edit', data=self.data)
         print(f'[!] Tópico editado com sucesso!')
 
+    @decorator_check_login
     def comentar(self, text: str, thread: str):
         """Insere um comentário no fórum.::
 
@@ -56,9 +118,10 @@ class Interage:
             thread (str): ID do tópico.
          """
         self.data["message"] = text
-        self.interact_session.post(f'{self.url}threads/{thread}/add-reply', data=self.data, headers=self.header)
+        self.interact_session.post(f'{self.url}threads/{thread}/add-reply', data=self.data)
         print(f'[!] postou no tópico {thread} com sucesso!')
 
+    @decorator_check_login
     def editar_comentario(self, text: str, post_id: str):
         """Edita um comentário no fórum.
            obs: Os posts podem ser editados por um tempo limitado.
@@ -68,10 +131,12 @@ class Interage:
             post_id (str): id do post.
         """
         self.data["message"] = text
-        self.interact_session.post(f'{self.url}posts/{post_id}/edit', data=self.data, headers=self.header)
+        self.interact_session.post(f'{self.url}posts/{post_id}/edit', data=self.data)
         print(f'[!] Post {post_id} editado com sucesso!')
 
+    @decorator_check_login
     def react(self, react_id: str, post_id: str):
+
         """Insere um react em um post.
 
             react IDs:
@@ -95,5 +160,5 @@ class Interage:
                 post_id (str): id do post.
          """
         self.data["reaction_id"] = react_id
-        self.interact_session.post(f'{self.url}posts/{post_id}/react', data=self.data, headers=self.header)
+        self.interact_session.post(f'{self.url}posts/{post_id}/react', data=self.data)
         print(f'[!] reagiu ao post {post_id}!')
