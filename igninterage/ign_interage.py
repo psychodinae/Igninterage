@@ -25,7 +25,6 @@ class Igninterage(Interage):
     def _load_cache_cookies(self):
         try:
             cookies = utils.load_cookie_file(self._cache_file_name)
-            print(cookies)
             self.set_cookie(cookies)
             return True
         except FileNotFoundError:
