@@ -8,7 +8,9 @@ Modulo para interagir no forum IGN boards, loga usando cookies do firefox, cria 
 - python >=3.6
 
 ## instalação
-   TODO
+    sudo pip3 install git+git://github.com/psychodinae/IGNInterage.git
+    ou
+    sudo pip3 install --upgrade https://github.com/psychodinae/IGNInterage/tarball/master
 
 ## uso
 - Primeiro realize o login no forum no Firefox.
