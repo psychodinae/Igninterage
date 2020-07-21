@@ -20,7 +20,6 @@ class Igninterage(Interage):
         super().__init__(url, header)
         self._cache_file_name = cache_file_name
 
-        # self._load_cache_cookies()
 
     def _load_cache_cookies(self):
         try:
@@ -44,3 +43,4 @@ class Igninterage(Interage):
         if not self._load_cache_cookies():
             self._load_from_firefox()
         print(f'[!] Cookies carregados do arquivo "{self._cache_file_name}"')
+
