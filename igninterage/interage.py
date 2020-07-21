@@ -157,7 +157,6 @@ class Interage(object):
                         react_id (str): React ID numero de 1 a 7.
                         post_id (str): id do post.
         """
-        print(self.interact_session.headers)
         self.data["reaction_id"] = react_id
         self.interact_session.post(f'{self.url}posts/{post_id}/react', data=self.data)
         print(f'[!] reagiu ao post {post_id}!')
