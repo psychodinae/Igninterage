@@ -5,7 +5,7 @@ from igninterage.interage import Interage
 
 
 class Igninterage(Interage):
-    def __init__(self, cache_file_name, url: str, header: dict):
+    def __init__(self, cache_file_name, url: str, header=Interage.headers):
         """Clase principal do modulo. Responsavel por recuperar os cookies do navegador
         Firefox, salva-los em arquivo de cache e utiliza-los para realizar as requisições,
         no fórum IGN Boards.
@@ -16,6 +16,11 @@ class Igninterage(Interage):
             * reagir a um post.
         TODO:
             * Enviar mensagem privada.
+            
+        Args:
+            cache_file_name (str): caminho/nome para salvar o arquivo de cache com o cookie de login.
+            url (str): url do forum.
+            header : Opcional, para inserir um User-agent customizado.
         """
         super().__init__(url, header)
         self._cache_file_name = cache_file_name
