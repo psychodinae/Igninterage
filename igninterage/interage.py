@@ -15,7 +15,6 @@ def decorator_check_login(f):
             print('[!] Logado ok!')
             f(ins, *args, **kwargs)
             return True
-
     return wrapper
 
 
