@@ -3,6 +3,11 @@ import requests
 import lxml.html as parser
 from igninterage.exceptions import LoginError, NotXenforoPage
 
+_headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
+                  'Chrome/70.0.3538.77 Safari/537.36'
+}
+
 
 def decorator_check_login(f):
     def wrapper(ins, *args, **kwargs):
@@ -10,6 +15,7 @@ def decorator_check_login(f):
             print('[!] Logado ok!')
             f(ins, *args, **kwargs)
             return True
+
     return wrapper
 
 
@@ -18,7 +24,9 @@ class Interage(object):
     interact_session = requests.Session()
     data = {}
 
-    def __init__(self, url: str, header: dict, ):
+    def __init__(self, url: str, header=None, ):
+        if header is None:
+            header = _headers
         self.url = url
         self.interact_session.headers.update(header)
 
