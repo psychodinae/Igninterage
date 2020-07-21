@@ -13,7 +13,7 @@ Modulo para interagir no forum IGN boards, loga usando cookies do firefox, cria 
     pip3 install --upgrade https://github.com/psychodinae/IGNInterage/tarball/master
 
 ## uso
-- Primeiro realize o login no forum no Firefox.
+- Primeiro realize o login no forum usando o navegador Firefox.
 
  
         from igninterage import Igninterage
