@@ -3,11 +3,6 @@ import requests
 import lxml.html as parser
 from igninterage.exceptions import LoginError, NotXenforoPage
 
-_headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
-                  'Chrome/70.0.3538.77 Safari/537.36'
-}
-
 
 def decorator_check_login(f):
     def wrapper(ins, *args, **kwargs):
@@ -20,12 +15,16 @@ def decorator_check_login(f):
 
 class Interage(object):
     """Clase que realiza as requisições web"""
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
+                      'Chrome/70.0.3538.77 Safari/537.36'
+    }
     interact_session = requests.Session()
     data = {}
 
     def __init__(self, url: str, header=None, ):
         if header is None:
-            header = _headers
+            header = self.headers
         self.url = url
         self.interact_session.headers.update(header)
 
@@ -60,7 +59,6 @@ class Interage(object):
 
     def xenforo2_login(self, username: str, password: str):
         """Realiza Login padrao em foruns Xenforo 2.x.
-
                 Args:
                     username (str): nome de usuario ou e-mail.
                     password (str): senha do usuario.
@@ -77,7 +75,6 @@ class Interage(object):
     @decorator_check_login
     def novo_topico(self, title: str, text: str, board_uri, prefix_id='0'):
         """Cria um tópico.
-
         Args:
             title (str): Titulo da Mensagem.
             text (str): Mensagem a ser enviada.
@@ -95,7 +92,6 @@ class Interage(object):
     @decorator_check_login
     def editar_topico(self, title: str, text: str, post_id: str, prefix_id='0'):
         """Cria um tópico.
-
         Args:
             title (str): Titulo da Mensagem.
             text (str): Mensagem a ser enviada.
@@ -114,14 +110,10 @@ class Interage(object):
     @decorator_check_login
     def comentar(self, text: str, thread: str):
         """Insere um comentário no fórum.::
-
              Para enviar uma imagem, por exemplo use as tags BBcode [IMG]imagem.jpg[/IMG],
-
              video do youtube [MEDIA=youtube]<ID>[/MEDIA]
-
          Args:
             text (str): Mensagem a ser enviada.
-
             thread (str): ID do tópico.
          """
         self.data["message"] = text
@@ -132,7 +124,6 @@ class Interage(object):
     def editar_comentario(self, text: str, post_id: str):
         """Edita um comentário no fórum.
            obs: Os posts podem ser editados por um tempo limitado.
-
         Args:
             text (str): Mensagem a ser enviada.
             post_id (str): id do post.
@@ -146,26 +137,27 @@ class Interage(object):
 
         """Insere um react em um post.
 
-            react IDs:
+                    react IDs:
 
-            1 = like
+                    1 = like
 
-            2 = Love
+                    2 = Love
 
-            3 = Haha
+                    3 = Haha
 
-            4 = Wow
+                    4 = Wow
 
-            5 = Sad
+                    5 = Sad
 
-            6 = Angry
+                    6 = Angry
 
-            7 = Thinking
+                    7 = Thinking
 
-            Args:
-                react_id (str): React ID numero de 1 a 7.
-                post_id (str): id do post.
-         """
+                    Args:
+                        react_id (str): React ID numero de 1 a 7.
+                        post_id (str): id do post.
+        """
+        print(self.interact_session.headers)
         self.data["reaction_id"] = react_id
         self.interact_session.post(f'{self.url}posts/{post_id}/react', data=self.data)
         print(f'[!] reagiu ao post {post_id}!')
