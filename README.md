@@ -34,3 +34,5 @@ Modulo para interagir no forum IGN boards, loga usando cookies do firefox, cria 
         ign.comentar(text='isso foi postado com a "API" rsrsrsrs', thread='123456789')
         ign.editar_comentario('[EDITt] e agora foi editado usando a "API"', '123456789')
         ign.react(react_id='1', post_id='123456789')
+        ign.msg_privada('meu assunto', 'minha conversa', 'NickdoUsuario')
+        ign.msg_privada('meu outro assunto', 'minha outra conversa', 'NickdoUsuario', 'NickdeOutroUsuario')
