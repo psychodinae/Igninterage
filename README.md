@@ -1,6 +1,6 @@
 
 # inginterage
-Modulo para interagir no forum IGN boards, loga usando cookies do firefox, cria topico, comenta, edita, react etc.
+Modulo para interagir no forum IGN boards, loga usando cookies do firefox, cria topico, comenta, edita, react e mensagem privada.
 
 ## requerimentos
 - Windows
