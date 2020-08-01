@@ -39,7 +39,7 @@ class Interage(object):
         self.data.clear()
         try:
             req = self.interact_session.get(self.url)
-            tree = parser.fromstring(req.text)
+            tree = parser.fromstring(req.content)
             try:
                 is_logged = tree.get_element_by_id('XF').get('data-logged-in')
             except (IndexError, KeyError):
