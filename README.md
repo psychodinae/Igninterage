@@ -25,7 +25,7 @@ Modulo para interagir no forum IGN boards, loga usando cookies do firefox, cria 
                       'Chrome/70.0.3538.77 Safari/537.36',
                  }
                  
-        ign = Igninterage(cookie_file, url, header)
+        ign = Igninterage(url, cookie_file, header)
         
         ign.ign_login()
         
