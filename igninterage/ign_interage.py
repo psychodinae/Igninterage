@@ -5,7 +5,7 @@ from igninterage.interage import Interage
 
 
 class Igninterage(Interage):
-    def __init__(self, cache_file_name, url, header=Interage.headers):
+    def __init__(self, url, cache_file_name=None, header=Interage.headers):
         """Clase principal do modulo. Responsavel por recuperar os cookies do navegador
         Firefox, salva-los em arquivo de cache e utiliza-los para realizar as requisições,
         no fórum IGN Boards.
@@ -17,39 +17,51 @@ class Igninterage(Interage):
             * Enviar mensagem privada.
 
         Args:
-            cache_file_name (str): caminho/nome para salvar o arquivo de cache com o cookie de login.
             url (str): url do forum.
+            cache_file_name (str): Opcional, caminho/nome do arquivo de cache com o cookie de login.
+             caso não definido o arquivo não será criado (ign_login usara diretamente o DB do Firefox,
+              xenforo2_login fara o login diretamente).
             header : Opcional, para inserir um User-agent customizado.
         """
         super(Igninterage, self).__init__(url, header)
         self._cache_file_name = cache_file_name
 
-    def _load_cache_cookies(self):
+    def ign_login(self):
         try:
-            cookies = utils.load_cookie_file(self._cache_file_name)
-            self.set_cookie(cookies)
-            return True
-        except FileNotFoundError:
-            pass
-
-    def _load_from_firefox(self):
-        cookie = utils.get_ign_firefox_cookie_from_sqlite()
-        try:
-            self.set_cookie(cookie)
+            if self._cache_file_name:
+                try:
+                    print('[!] Logando usando o cache de sessão.')
+                    cookies = utils.load_cookie_file(self._cache_file_name)
+                    self.set_cookie(cookies)
+                except FileNotFoundError:
+                    print('[!] O arquivo cache da sessão não existe criando um novo usando o navegador Firefox...')
+                    cookie = utils.get_ign_firefox_cookie_from_sqlite()
+                    self.set_cookie(cookie)
+                    utils.save_cookie_file(cookie, self._cache_file_name)
+            else:
+                print('[!] Logando usando o DB do firefox.')
+                cookie = utils.get_ign_firefox_cookie_from_sqlite()
+                self.set_cookie(cookie)
         except (ConnectionError, ex.NotXenforoPage, ex.LoginError):
             raise
-        utils.save_cookie_file(cookie, self._cache_file_name)
-        print('[!] O arquivo cache da sessão está nao existe ou esta expirado, criando um novo usando o navegador '
-              'firefox...')
-        return True
 
     def xenforo2_login(self, username, password):
-        if not self._load_cache_cookies():
-            ck = self._xenforo2_login(username, password)
-            utils.save_cookie_file(ck, self._cache_file_name)
-        print(f'[!] Cookies carregados do arquivo "{self._cache_file_name}"')
+        try:
+            if self._cache_file_name:
+                try:
+                    print('[!] Logando usando o cache de sessão.')
+                    cookies = utils.load_cookie_file(self._cache_file_name)
+                    self.set_cookie(cookies)
+                except FileNotFoundError:
+                    print('[!] O arquivo cache da sessão não existe criando um novo usando o navegador Firefox...')
+                    cookie = self._xenforo2_login(username, password)
+                    self.set_cookie(cookie)
+                    utils.save_cookie_file(cookie, self._cache_file_name)
+            else:
+                print('[!] Logando sem cache (não recomendado).')
+                cookie = self._xenforo2_login(username, password)
+                self.set_cookie(cookie)
 
-    def ign_login(self):
-        if not self._load_cache_cookies():
-            self._load_from_firefox()
-        print(f'[!] Cookies carregados do arquivo "{self._cache_file_name}"')
+        except (ConnectionError, ex.NotXenforoPage, ex.LoginError):
+            raise
+   
