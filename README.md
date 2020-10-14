@@ -19,15 +19,8 @@ Modulo para interagir no forum IGN boards, loga usando cookies do firefox, cria 
  
         from igninterage import Igninterage
 
-        cookie_file = 'cache.session'
-        url = 'https://www.ignboards.com/'
-        header = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) '
-                      'Chrome/70.0.3538.77 Safari/537.36',
-                 }
-                 
-        ign = Igninterage(url, cookie_file, header)
-        
+
+        ign = Igninterage('https://www.ignboards.com/')
         ign.ign_login()
         
         ign.novo_topico('teste', 'som som teste', 'vale-tudo.80331/')    
