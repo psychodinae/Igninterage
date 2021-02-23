@@ -3,6 +3,7 @@
 Modulo para interagir no forum IGN boards, loga usando cookies dos navegadores Firefox (default) e Chrome, cria topico, comenta, edita, react e mensagem privada.
 
 ## requerimentos
+- OS Windows/Linux
 - Navegador Chrome/Firefox
 - python >=3.6
 
