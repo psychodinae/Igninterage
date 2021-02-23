@@ -11,7 +11,7 @@ Modulo para interagir no forum IGN boards, loga usando cookies dos navegadores F
     pip install igninterage
     
     ou instale a última versão:
-    pip3 install --upgrade https://github.com/psychodinae/IGNInterage/tarball/master
+    pip install --upgrade https://github.com/psychodinae/igninterage/tarball/master
 
 ## uso
 - Primeiro realize o login no forum usando o navegador e feche-o.
