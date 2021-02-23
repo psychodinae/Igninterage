@@ -32,8 +32,8 @@ class Interage(object):
         self.interact_session.cookies.update(cookie)
         self.check_login()
 
-    def set_xf_token(self, token: str):
-        self.data = {'_xfToken': token}
+    def get_cookies_as_dict(self):
+        return self.interact_session.cookies.get_dict()
 
     def check_login(self):
         self.data.clear()
@@ -195,6 +195,8 @@ class Interage(object):
                     6 = Angry
 
                     7 = Thinking
+
+                    8 = Poo
 
                     Args:
                         react_id (str): React ID numero de 1 a 7.
