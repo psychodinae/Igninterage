@@ -41,7 +41,7 @@ Modulo para interagir no forum IGN boards, loga usando cookies dos navegadores F
         ign.ign_login()
         cookies_salvos = json.dumps(ign.get_cookies_as_dict())
         > {"xf_user": "4345353535-etertagabayata3665a643634b6b6b6", "xf_csrf": "tetETn54778", "xf_..."}
- 
+
 -  Posteriormente:
   
         import json
