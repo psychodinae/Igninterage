@@ -18,7 +18,7 @@ class Igninterage(Interage):
             * Enviar mensagem privada.
 
         Args:
-            url (str): url do forum.
+            url (str): url do forum ex: https://www.forumxisto.net.br/forum/ (remova a parte "index.php" caso exista).
 
             cache_file_name (str): Opcional, caminho/nome do arquivo de cache com o cookie de login.
 
